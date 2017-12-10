@@ -15,13 +15,30 @@ private
       procedure setPosY(pos : Integer);
 
 public
-      procedure prooveX(pos : Integer);
-      procedure prooveY(pos : Integer);
+      procedure prooveX(pos : Integer):Boolean;
+      procedure prooveY(pos : Integer):Boolean;
 
 uses
   Classes, SysUtils;
 
 implementation
+
+
+// Create reinpacken !!
+
+
+procedure prooveX(pos:Integer):Boolean
+begin
+         Zahl:=1;
+         for i:= 1 to nichtzubetreten[i].length do
+         begin
+             if pos = nichtzubetreten[i] then Zahl := -1;
+         end;
+         
+         if Zahl = -1 then Result:= false ;
+         else Result:= true;
+         
+end;
 
 end.
 
