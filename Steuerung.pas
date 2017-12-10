@@ -39,10 +39,10 @@ procedure TForm1.FormKeyPress(Sender: TObject; var Key: char);
 begin
 
   //key ist der Knopf der Tastatur 
-  if key = 'a' then bg.Left:= bg.Left +5;
-  if key = 'd' then bg.Left := bg.Left-5;
-  if key = 'w' then bg.top := bg.top +5;
-  if key = 's' then bg.top := bg.top -5;
+  if key = 'a' and Karte1.prooveX(bg.Left) then bg.Left:= bg.Left +5;
+  if key = 'd' and Karte1.prooveY(bg.Left) then bg.Left := bg.Left-5;
+  if key = 'w' and Karte1.prooveX(bg.Left) then bg.top := bg.top +5;
+  if key = 's' and Karte1.prooveY(bg.Left) then bg.top := bg.top -5;
 
 end;
 
