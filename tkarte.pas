@@ -27,11 +27,13 @@ implementation
 // Create reinpacken !!
 
 
+
 procedure prooveX(pos:Integer):Boolean
 begin
          Zahl:=1;
          for i:= 1 to nichtzubetreten[i].length do
          begin
+             // Da muss sowas wie pos+5/pos-5 hin !!!
              if pos = nichtzubetreten[i] then Zahl := -1;
          end;
          
