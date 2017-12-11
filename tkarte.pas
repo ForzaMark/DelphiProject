@@ -9,8 +9,6 @@ type TKarte1 = class(TImage)
   protected
    FPosX : Integer;
    FPosY : Integer;
-   FNichtBetretenX : Array[1..5] of Integer;
-   FNichtBetretenY: Array[1..5] of Integer;
 
   public
     constructor Create(Formular : TForm; Links,Oben : Integer);
