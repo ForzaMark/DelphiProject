@@ -14,6 +14,7 @@ type TKarte1 = class(TImage)
 
   public
     constructor Create(Formular : TForm; Links,Oben : Integer);
+    procedure paintbackground(source : String);
     function getPosX():Integer;
     function getPosY():Integer;
     procedure setPosX(pos:Integer);
@@ -35,7 +36,11 @@ begin
     Autosize:= True;
     FNichtBetretenX[1]:= 0;
 
+end;
 
+procedure TKarte1.paintbackground(source : String);
+begin
+Picture.LoadFromFile(source);
 
 end;
 
@@ -51,36 +56,57 @@ end;
 
 procedure TKarte1.setPosX(pos : Integer);
 begin
-   FPosX := pos;
+   FPosX := FPosX + pos;
+   Left := FPosX;
 end ;
 
 procedure TKarte1.setPosY(pos : Integer);
 begin
-  FPosY := pos
+  FPosY := FPosY + pos;
+   Top := FPosY;
 
 end;
 
 
-function TKarte1.prooveX(pos:Integer):Boolean ;
+function TKarte1.prooveX(pos :Integer):Boolean ;
 var Zahl : Integer;
+var Datei : TextFile;
+var Zeile : String;
 begin
-         {Zahl:=1;
-         for i:= 1 to nichtzubetreten[i].length do
-         begin
-             // Da muss sowas wie pos+5/pos-5 hin !!!
-             if pos = nichtzubetreten[i] then Zahl := -1;
-         end;
+         Zahl:=1;
+         AssignFile(Datei,'notX.txt');
+         Reset(Datei);
+         repeat
+           ReadLn(Datei,Zeile);
+           if pos = StrToInt(Zeile) then Zahl := -1;
+         until EOF(Datei);
+         CloseFile(Datei);
 
-         if Zahl = -1 then Result:= false ;
-         else Result:= true;}
+         if Zahl = -1 then Result:= false
+         else Result:= true;
 
-         if FNichtBetretenX[1] = pos then Result := true
-         else Result := false;
+
          
 end;
 
 function TKarte1.prooveY(pos:Integer):Boolean;
+var Zahl : Integer;
+var Datei : TextFile;
+var Zeile : String;
 begin
+         Zahl:=1;
+         AssignFile(Datei,'notY.txt');
+         Reset(Datei);
+         repeat
+           ReadLn(Datei,Zeile);
+           if pos = StrToInt(Zeile) then Zahl := -1;
+         until EOF(Datei);
+         CloseFile(Datei);
+
+         if Zahl = -1 then Result:= false
+         else Result:= true;
+
+
 
 end;
 
