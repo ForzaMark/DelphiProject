@@ -13,6 +13,7 @@ type TSpielfigur1 = class(TImage)
 
   public
     constructor Create(Formular : TForm; Links,Oben : Integer);
+    procedure paintFigur(number : Integer);
 
 end;
 
@@ -26,7 +27,21 @@ begin
     Top:= Oben;
     Parent := Formular;
     Autosize:= True;
-    Picture.LoadFromFile('charakterI.png');
+    Picture.LoadFromFile('charakterdown.png');
+
+end;
+
+
+procedure TSpielfigur1.paintFigur(number : Integer);
+begin
+
+    if number = 1 then Picture.LoadFromFile('charakterleft.png') ;
+    if number = 2 then Picture.LoadFromFile('charakterright.png') ;
+    if number = 3 then Picture.LoadFromFile('charakterup.png') ;
+    if number = 4 then Picture.LoadFromFile('charakterdown.png') ;
+
+
+
 
 end;
 
