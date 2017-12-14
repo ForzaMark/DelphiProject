@@ -12,16 +12,16 @@ protected
   FMaxHP: Integer;
   FcurrentHP:Integer;
 public
-  constructor create (Number, Level: Integer); //+
-  procedure setlevel(Level: Integer);  //+
-  procedure setXP(XP: Integer); //+
-  procedure setcurrentHP(HP:Integer); //+
-  //procedure setmaxHP(HP:Integer);    brauch ich das?
-  function getLevel:Integer; //+
-  function getNumber:Integer; //+
-  function getXP:Integer; //+
-  function getmaxHP:Integer; //+
-  function getcurrentHP:Integer; //+
+  constructor create (Number, Level: Integer); 
+  procedure setlevel(Level: Integer);  
+  procedure setXP(XP: Integer); 
+  procedure setcurrentHP(HP:Integer); 
+  //procedure setmaxHP(HP:Integer);
+  function getLevel:Integer; 
+  function getNumber:Integer; 
+  function getXP:Integer; 
+  function getmaxHP:Integer;
+  function getcurrentHP:Integer; 
   procedure drawPokemon(Formular: TForm; left,top: Integer);
 end;
 
@@ -44,7 +44,7 @@ end
 procedure TPokemon.setXP(XP: Integer);
 begin
   if Xp<0 then xp:=0;
-//jetzt noch immer nach 100xp Level Up -> muss verbessert werden
+//jetzt noch immer nach 100xp Level Up -> muss iwann verbessert werden
   if xp>100 then begin
     TPokemon.SetLevel(FLevel+1);
     xp:= xp-100;
