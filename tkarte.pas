@@ -125,9 +125,9 @@ begin
            Lange := length(Zeile);
            for i:=1 to Lange do
            begin
-                if Zeile[i] = '#' then ZahlII := 1;
+                if Zeile[i] = ',' then ZahlII := 1;
                 if ZahlII = 0 then Xchoord := Xchoord + Zeile[i];
-                if (ZahlII = 1) and (Zeile[i] <> '#') then Ychoord := Ychoord + Zeile[i];
+                if (ZahlII = 1) and (Zeile[i] <> ',') then Ychoord := Ychoord + Zeile[i];
            end;
             ZahlII := 0;
 

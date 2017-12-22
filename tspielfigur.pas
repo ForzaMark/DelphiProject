@@ -14,6 +14,8 @@ type TSpielfigur1 = class(TImage)
   public
     constructor Create(Formular : TForm; Links,Oben : Integer);
     procedure paintFigur(number : Integer);
+    function getTop():Integer;
+    function getLeft:Integer;
 
 end;
 
@@ -43,6 +45,16 @@ begin
 
 
 
+end;
+
+function TSpielfigur1.getTop:Integer;
+begin
+    Result:= Top;
+end;
+
+function Tspielfigur1.getLeft : Integer;
+begin
+    Result:=Left;
 end;
 
 end.
