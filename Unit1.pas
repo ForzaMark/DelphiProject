@@ -53,8 +53,7 @@ end;
 procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
 begin
 
- Edit1.Text:= IntToStr(Karte.getPosX);
- Edit2.Text:= IntToStr(Karte.getPosy);
+
 
   if (key = 'a') and Karte.prooveCoords(Karte.getPosX + 5,Karte.getPosY) then
    begin
@@ -103,7 +102,7 @@ begin
     if (Key = 'x') and (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
 
       begin
-       Timer1.Enabled:= false;
+       
        ShowMessage(Bot.startConversation());
 
        Kampf := TFightSystem.Create(Form1,0,0);
