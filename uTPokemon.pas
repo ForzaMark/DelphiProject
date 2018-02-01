@@ -4,12 +4,14 @@ interface
 
 uses ExtCtrls, Forms, SysUtils;
 
+
 type TAttacke = record
   Name: String[20];
   Typ: String[10];
   Staerke: Integer;
   AP: Integer;
 end;
+
 
 type TPokemon = class(TImage)
 protected
@@ -21,25 +23,36 @@ protected
   FXP:Integer;
   FMaxHP: Integer;
   FcurrentHP:Integer;
+
   FAttacken: array[1..4] of TAttacke;
+
 public
   constructor create (Formular:TForm;Number, Level: Integer);
   procedure setlevel(Level: Integer);
   procedure setXP(XP: Integer);
   procedure setcurrentHP(HP:Integer);
+
   function getLevel:Integer;
   function getNumber:Integer;
   function getXP:Integer;
+
+  function getLevel:Integer; 
+  function getNumber:Integer; 
+  function getXP:Integer; 
+
   function getmaxHP:Integer;
   function getcurrentHP:Integer;
   procedure drawPokemon(Formular: TForm; links,oben: Integer);
   function getName:String;
   function getType1:String;
   function getType2:String;
+
   function getAttacke1: TAttacke;
   function getAttacke2: TAttacke;
   function getAttacke3: TAttacke;
   function getAttacke4: TAttacke;
+
+
 end;
 
 implementation
@@ -53,15 +66,18 @@ type TPokemonRecord=record
   end;
 var f: File of TPokemonRecord;
   pokemon: TPokemonRecord;
+
   g: File of TAttacke;
   i,j: Integer;
   Attacke: TAttacke;
+
 begin
   inherited Create(Formular); 
   assignfile(f,'FileOfTPokemonRecord.txt') ; //File in dem alle Pokemon der 1. Generation gespeichert sind
   reset(f);
   seek(f,Number-1);
   read(f,pokemon);
+
   if pokemon.Type1 = 'Fire' then FType1:='Feuer';
   if pokemon.Type1 = 'Water' then FType1:='Wasser';
   if pokemon.Type1 = 'Grass' then FType1:='Pflanze';
@@ -91,10 +107,16 @@ begin
   if pokemon.Type2 = 'Ground' then FType2:='Boden';
   if pokemon.Type2 = 'Fight' then FType2:='Kampf';
   FName:= pokemon.Name;
+
+  FName:= pokemon.Name;
+  FType1:= pokemon.Type1;
+  FType2:= pokemon.Type2;
+
   FNumber:= pokemon.Number;
   closefile(f);
   if (Level<1) or (Level>100) then FLevel:=1
   else FLevel:= Level;FLevel:=Level;
+
   FMaxHP:= FLevel*10; //verbesserungswÃ¼rdig
    Assignfile(g,'Attacken.txt');
   i:= random(100)+1;
@@ -111,19 +133,30 @@ begin
     if i>100 then i:=1;
   until j>4;
   closefile(g);
+
+  FMaxHP:= FLevel*10; //verbesserungswürdig
+
 end;
 
 procedure TPokemon.setlevel(Level: Integer);
 begin
   if (Level<1) or (Level>100) then FLevel:=FLevel
   else FLevel:= Level;
+
   FMaxHP:= FLevel*10; //verbesserungswÃ¼rdig
+
+  FMaxHP:= FLevel*10; //verbesserungswürdig
+
 end;
 
 procedure TPokemon.setXP(XP: Integer);
 begin
   if Xp<0 then xp:=0;
+
 //immer nach 100xp Level Up (verbesserungswÃ¼rdig)
+
+//immer nach 100xp Level Up (verbesserungswürdig)
+
   if xp>100 then begin
     SetLevel(FLevel+1);
     xp:= xp-100;
@@ -162,7 +195,11 @@ begin
   result:= FMaxHP;
 end;
 
+
 //Hab hier erstmal einfach das Ã¼bernommen, was wir bei der Ampelsache vorgegeben gekriegt hatten. 
+
+//Hab hier erstmal einfach das übernommen, was wir bei der Ampelsache vorgegeben gekriegt hatten. 
+
 //Kann gut sein, dass da noch ziemlich viel fehlt
 procedure TPokemon.drawPokemon(Formular: TForm; links,oben: Integer);
 begin
@@ -170,7 +207,11 @@ begin
   Top:=oben;
   Parent:=Formular;
   Autosize:=true;
+
   Picture.LoadFromFile('Pokemon'+IntToStr(FNumber)+'.bmp'); //Die Bilder mÃ¼ssen noch rausgesucht werden
+
+  Picture.LoadFromFile('Pokemon'+IntToStr(FNumber)+'.bmp'); //Die Bilder müssen noch rausgesucht werden
+
 end;    
 
 function TPokemon.getName:String;
@@ -187,6 +228,7 @@ function TPokemon.getType2:String;
 begin
   result:=FType2;
 end;
+
 
 function TPokemon.getAttacke1: TAttacke;
 begin
@@ -207,4 +249,6 @@ function TPokemon.getAttacke4: TAttacke;
 begin
   result:=FAttacken[4];
 end;
+
+
 end.
