@@ -10,12 +10,9 @@ uses
 
 type
   TForm1 = class(TForm)
-    Timer1: TTimer;
-    Edit1: TEdit;
-    Edit2: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure Timer1Timer(Sender: TObject);
+    //procedure Timer1Timer(Sender: TObject);
   private
     { Private-Deklarationen }
   public
@@ -100,16 +97,12 @@ begin
     end;
 
 
-    if (Key = 'x') and (Karte.getPosX = -365) and (Karte.getPosY = -50) then ShowMessage('Schild')
+    if (Key = 'x') and (Karte.getPosX = -365) and (Karte.getPosY = -50) then ShowMessage('Schild');
 
 
+    if (Key = 'x') and (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
 
-end;
-
-procedure TForm1.Timer1Timer(Sender: TObject);
-begin
-if (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
-   begin
+      begin
        Timer1.Enabled:= false;
        ShowMessage(Bot.startConversation());
 
@@ -123,10 +116,11 @@ if (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDis
        Form1.ClientHeight:= 230;
        Form1.ClientWidth:= 250;
 
-
+      end;
 
 
 end;
-end;
+
+
 
 end.
