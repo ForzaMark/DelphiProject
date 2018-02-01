@@ -4,7 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, TBot,TSpielfigur,TKarte, ExtCtrls, StdCtrls,uTFightSystem,uTPokemon;
+  Dialogs, TBot,TSpielfigur,TKarte, ExtCtrls, StdCtrls,uTFightSystem,uTPokemon,pngimage;
+  //pngimage kommt von Vorlagen/Informatik/ga-if/12/BeispielPNG ... Zu genaueren Quellen
+  //Herr Markert fragen
 
 type
   TForm1 = class(TForm)
@@ -46,8 +48,8 @@ begin
 
     Bot.setFightDistanceX(0);
     Bot.setFightDistanceY(21);
-    //Form2.Visible:= false
 
+    
 
 end;
 
@@ -110,15 +112,17 @@ if (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDis
    begin
        Timer1.Enabled:= false;
        ShowMessage(Bot.startConversation());
-       //Hier könnte Tobias einsteigen und die Überleitung in die "Kampfarena" bringen
-       //Form1.Visible:= false;
-       //Form2.Visible:= true;
+
        Kampf := TFightSystem.Create(Form1,0,0);
        Pokemon1 := TPokemon.create(Form1,1,3);
        Pokemon2 := TPokemon.create(Form1,2,1);
 
        Pokemon1.drawPokemon(Form1,130,10);
        Pokemon2.drawPokemon(Form1,20,100);
+
+       Form1.ClientHeight:= 230;
+       Form1.ClientWidth:= 250;
+
 
 
 
