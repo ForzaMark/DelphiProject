@@ -28,11 +28,11 @@ implementation
 
 {$R *.dfm}
 
-var Karte : TKarte1;
-var Spielfigur : TSpielfigur1;
-var Bot : TBot1;
-var Kampf : TFightInterface;
-var Pokemon1,Pokemon2 : TPokemon;
+  var Karte : TKarte1;
+  var Spielfigur : TSpielfigur1;
+  var Bot : TBot1;
+  var Kampf : TFightInterface;
+  var Pokemon1,Pokemon2 : TPokemon;
 
 
 
@@ -45,21 +45,14 @@ begin
 
     Bot.setFightDistanceX(0);
     Bot.setFightDistanceY(21);
-
-    
-
 end;
 
+
 procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
-
-var AttackButton : Array[1..4] of TButton;
+  var AttackButton : Array[1..4] of TButton;
 begin
-
-
-
   if (key = 'a') and Karte.prooveCoords(Karte.getPosX + 5,Karte.getPosY) then
    begin
-
        Karte.setPosX(5);
        Spielfigur.paintFigur(1);
        Bot.setPosX(5);
@@ -67,7 +60,7 @@ begin
        Bot.setDistanceY(Spielfigur.getTop());
     end;
 
-   if (key = 'd') and Karte.prooveCoords(Karte.getPosX - 5,Karte.getPosY) then
+  if (key = 'd') and Karte.prooveCoords(Karte.getPosX - 5,Karte.getPosY) then
    begin
        Karte.setPosX(-5);
        Spielfigur.paintFigur(2);
@@ -76,9 +69,8 @@ begin
        Bot.setDistanceY(Spielfigur.getTop());
     end;
 
-    if (key = 's') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY - 5) then
-   begin
-
+   if (key = 's') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY - 5) then
+    begin
        Karte.setPosY(-5);
        Spielfigur.paintFigur(4);
        Bot.setPosY(-5);
@@ -87,9 +79,8 @@ begin
     end;
 
 
-    if (key = 'w') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY + 5) then
-   begin
-
+   if (key = 'w') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY + 5) then
+    begin
        Karte.setPosY(5);
        Spielfigur.paintFigur(3);
        Bot.setPosY(5);
@@ -98,16 +89,13 @@ begin
     end;
 
 
-    if (Key = 'x') and (Karte.getPosX = -365) and (Karte.getPosY = -50) then ShowMessage('Sie befinden sich in der Schulstraﬂe\n Gehen sie auf das blaue Feld um auf den Schulhof zu gelangen');
+   if (Key = 'x') and (Karte.getPosX = -365) and (Karte.getPosY = -50) then ShowMessage('Sie befinden sich in der Schulstra√üe\n Gehen sie auf das blaue Feld um auf den Schulhof zu gelangen');
+   
+   if (Key = 'x') and (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
+    begin
+      ShowMessage(Bot.startConversation());
 
-
-    if (Key = 'x') and (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
-
-      begin
-       
-       ShowMessage(Bot.startConversation());
-
-       Kampf := TFightInterface.Create(Form1,0,0);
+     Kampf := TFightInterface.Create(Form1,0,0);
        Pokemon1 := TPokemon.create(Form1,1,3);
        Pokemon2 := TPokemon.create(Form1,2,1);
 
