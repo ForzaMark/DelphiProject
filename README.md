@@ -1,8 +1,11 @@
 # DelphiProject
 Delphi Project 12/II 
 
-ReadMe der Steuerung
+Pokemon-Spiel am Spalatin.
 
-Die Steuerung ist relativ ausgereift in der TKarte.pas zu finden.
+# ACHTUNG !!
 
-Es ist zu beachten das sich die Spielfigur (TSpielfigur.pas) nicht bewegt sondern nur das Bild herum.
+In dem zip-ordner liegen alle Bilder die man (bislang) benötigt.
+Außerdem liegt ein TextFile mit drin was von der TKarte genutzt wird.
+
+
