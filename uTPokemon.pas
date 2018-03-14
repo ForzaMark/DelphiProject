@@ -1,4 +1,4 @@
-unit uTPokemon;
+ unit uTPokemon;
 
 interface
 
@@ -23,11 +23,11 @@ protected
   FXP:Integer;
   FMaxHP: Integer;
   FcurrentHP:Integer;
-
+  Fwild: Boolean; //alles gilt als wild, was nicht Spieler geh�rt
   FAttacken: array[1..4] of TAttacke;
 
 public
-  constructor create (Formular:TForm;Number, Level: Integer);
+  constructor create (Formular:TForm;Number, Level: Integer;wild: boolean);
   procedure setlevel(Level: Integer);
   procedure setXP(XP: Integer);
   procedure setcurrentHP(HP:Integer);
@@ -35,10 +35,6 @@ public
   function getLevel:Integer;
   function getNumber:Integer;
   function getXP:Integer;
-
-  function getLevel:Integer; 
-  function getNumber:Integer; 
-  function getXP:Integer; 
 
   function getmaxHP:Integer;
   function getcurrentHP:Integer;
@@ -52,12 +48,12 @@ public
   function getAttacke3: TAttacke;
   function getAttacke4: TAttacke;
 
-
+  procedure Angriff(Pokemon:Tpokemon; Attackennummer: Integer);
 end;
 
 implementation
 
-constructor TPokemon.create(Formular:TForm;Number, Level: Integer);
+constructor TPokemon.create(Formular:TForm;Number, Level: Integer; wild: boolean);
 type TPokemonRecord=record
     Number: Integer;
     Name: String[30];
@@ -81,7 +77,7 @@ begin
   if pokemon.Type1 = 'Fire' then FType1:='Feuer';
   if pokemon.Type1 = 'Water' then FType1:='Wasser';
   if pokemon.Type1 = 'Grass' then FType1:='Pflanze';
-  if pokemon.Type1 = 'Bug' then FType1:='Käfer';
+  if pokemon.Type1 = 'Bug' then FType1:='K�fer';
   if pokemon.Type1 = 'Ghost' then FType1:='Geist';
   if pokemon.Type1 = 'Dragon' then FType1:='Drache';
   if pokemon.Type1 = 'Flying' then FType1:='Flug';
@@ -95,7 +91,7 @@ begin
   if pokemon.Type2 = 'Fire' then FType2:='Feuer';
   if pokemon.Type2 = 'Water' then FType2:='Wasser';
   if pokemon.Type2 = 'Grass' then FType2:='Pflanze';
-  if pokemon.Type2 = 'Bug' then FType2:='Käfer';
+  if pokemon.Type2 = 'Bug' then FType2:='K�fer';
   if pokemon.Type2 = 'Ghost' then FType2:='Geist';
   if pokemon.Type2 = 'Dragon' then FType2:='Drache';
   if pokemon.Type2 = 'Flying' then FType2:='Flug';
@@ -106,20 +102,20 @@ begin
   if pokemon.Type2 = 'Rock' then FType2:='Gestein';
   if pokemon.Type2 = 'Ground' then FType2:='Boden';
   if pokemon.Type2 = 'Fight' then FType2:='Kampf';
-  FName:= pokemon.Name;
 
   FName:= pokemon.Name;
   FType1:= pokemon.Type1;
   FType2:= pokemon.Type2;
-
   FNumber:= pokemon.Number;
-  closefile(f);
-  if (Level<1) or (Level>100) then FLevel:=1
-  else FLevel:= Level;FLevel:=Level;
 
-  FMaxHP:= FLevel*10; //verbesserungswÃ¼rdig
-   Assignfile(g,'Attacken.txt');
-  i:= random(100)+1;
+  closefile(f);
+
+  if (Level<1) or (Level>100) then FLevel:=1
+  else FLevel:= Level;
+
+  Assignfile(g,'Attacken.txt');
+  randomize;
+  i:= Random(100);
   j:=1;
   reset(g);
   repeat
@@ -134,8 +130,10 @@ begin
   until j>4;
   closefile(g);
 
-  FMaxHP:= FLevel*10; //verbesserungswürdig
+  FMaxHP:= FLevel*10; //verbesserungsw�rdig
+  FcurrentHP:= FMaxHP;
 
+  Fwild:= wild;
 end;
 
 procedure TPokemon.setlevel(Level: Integer);
@@ -143,9 +141,9 @@ begin
   if (Level<1) or (Level>100) then FLevel:=FLevel
   else FLevel:= Level;
 
-  FMaxHP:= FLevel*10; //verbesserungswÃ¼rdig
-
   FMaxHP:= FLevel*10; //verbesserungswürdig
+
+  FMaxHP:= FLevel*10; //verbesserungsw�rdig
 
 end;
 
@@ -153,9 +151,7 @@ procedure TPokemon.setXP(XP: Integer);
 begin
   if Xp<0 then xp:=0;
 
-//immer nach 100xp Level Up (verbesserungswÃ¼rdig)
-
-//immer nach 100xp Level Up (verbesserungswürdig)
+//immer nach 100xp Level Up (verbesserungsw�rdig)
 
   if xp>100 then begin
     SetLevel(FLevel+1);
@@ -167,6 +163,7 @@ end;
 procedure TPokemon.setcurrentHP(HP:Integer);
 begin
   if HP > FMaxHP then HP:=fMaxHP;
+  if HP<0 then HP:=0;
   FcurrentHP:=HP;
 end;
 
@@ -195,12 +192,6 @@ begin
   result:= FMaxHP;
 end;
 
-
-//Hab hier erstmal einfach das Ã¼bernommen, was wir bei der Ampelsache vorgegeben gekriegt hatten. 
-
-//Hab hier erstmal einfach das übernommen, was wir bei der Ampelsache vorgegeben gekriegt hatten. 
-
-//Kann gut sein, dass da noch ziemlich viel fehlt
 procedure TPokemon.drawPokemon(Formular: TForm; links,oben: Integer);
 begin
   Left:=Links;
@@ -208,11 +199,11 @@ begin
   Parent:=Formular;
   Autosize:=true;
 
-  Picture.LoadFromFile('Pokemon'+IntToStr(FNumber)+'.bmp'); //Die Bilder mÃ¼ssen noch rausgesucht werden
+  Picture.LoadFromFile('Pokemon'+IntToStr(FNumber)+'.png');
 
-  Picture.LoadFromFile('Pokemon'+IntToStr(FNumber)+'.bmp'); //Die Bilder müssen noch rausgesucht werden
+  Picture.LoadFromFile('Pokemon'+IntToStr(FNumber)+'.png');
 
-end;    
+end;
 
 function TPokemon.getName:String;
 begin
@@ -248,6 +239,26 @@ end;
 function TPokemon.getAttacke4: TAttacke;
 begin
   result:=FAttacken[4];
+end;
+
+procedure TPokemon.Angriff(Pokemon:Tpokemon; Attackennummer: Integer);
+var i:Integer;
+begin
+  if FWild=true then begin
+    i:= random(4)+1;
+    if FAttacken[i].Ap <> 0 then begin
+      FAttacken[i].Ap:= FAttacken[i].Ap -1;
+      Pokemon.setcurrentHP(Pokemon.getcurrentHP - FAttacken[i].Staerke div 10);
+    end;
+  end;
+
+  if FWild=false then begin
+    if FAttacken[Attackennummer].Ap <> 0 then begin
+      FAttacken[Attackennummer].Ap:= FAttacken[Attackennummer].Ap -1;
+      Pokemon.setcurrentHP(Pokemon.getcurrentHP - FAttacken[Attackennummer].Staerke div 10);
+      if Pokemon.getcurrentHP <= 0 then setXP(FXP+40);
+    end;
+  end;
 end;
 
 
