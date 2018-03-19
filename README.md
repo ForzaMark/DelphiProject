@@ -1,4 +1,4 @@
-# DelphiProject
+# Delphi Projekt
 
 Pokemon-Spiel am Spalatin.
 
