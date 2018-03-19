@@ -9,11 +9,13 @@ Alle benötigten Bilder sowie Kartenbegrenzungen(notChoords_level...txt) liegen 
 
 Die Unterthemen Steuerung/Pokemonklasse/Kampfsystem haben alle ihre eigenen Branches, in welchen die dazugehörigen Klassen, Dateien etc. liegen.
 
-+ Was wäre weiter zu entwickeln :
+Was wäre weiter zu entwickeln :
 
 - Story-Modus komplett einführen (im Handbuch nachlesen)
 - Pokemon-Inventar/mehrere Pokemon im Besitz haben
 - Animationen der Spielfigur
 - weitere Anregungen siehe Handbuch
 
-//Viel Spaß damit
+
+
+Viel Spaß damit
