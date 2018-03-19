@@ -1,18 +1,17 @@
+//Heimer, Mark & Mann, Tobias
 unit Unit1;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, TBot,TSpielfigur,TKarte, ExtCtrls, StdCtrls,uTFightInterface,uTPokemon,pngimage;
-  //pngimage kommt von Vorlagen/Informatik/ga-if/12/BeispielPNG ... Zu genaueren Quellen
-  //Herr Markert fragen
+  Dialogs,TBot,TSpielfigur,TKarte, ExtCtrls, StdCtrls,uTFightInterface,uTPokemon,pngimage,Unit2,
+  SaveGameUnit;
 
 type
   TForm1 = class(TForm)
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    //procedure Timer1Timer(Sender: TObject);
   private
     { Private-Deklarationen }
   public
@@ -21,38 +20,60 @@ type
 
 var
   Form1: TForm1;
+  pokemonChosen,Level : Integer;
 
 implementation
 
-
-
 {$R *.dfm}
 
-  var Karte : TKarte1;
-  var Spielfigur : TSpielfigur1;
-  var Bot : TBot1;
-  var Kampf : TFightInterface;
-  var Pokemon1,Pokemon2 : TPokemon;
+var Karte : TKarte1;
+var Spielfigur : TSpielfigur1;
+var Bot : TBot1;
+var Kampf : TFightInterface;
 
 
 
 procedure TForm1.FormCreate(Sender: TObject);
+var SaveGame : TSaveGameRecord;
 begin
-    Karte := TKarte1.Create(Form1,0,0);
-    Karte.paintbackground('newback.bmp');
+    Level := 1;
+    if existingSaveGame = false
+    then  begin
+            Karte := TKarte1.Create(Form1,0,0);
+            Karte.paintbackground('Level1.png');
+          end;
+    //nicht funktional --> erzeugt Fehler beim Lades des Kartenbilds
+    {else begin
+           SaveGame:=getGameProgress;
+           with SaveGame do
+           begin
+             TKarte1.Create(Form1,0,0);
+             Karte.paintbackground('newback.bmp');
+             Karte.setPosX(XCoordinate);
+             Karte.setPosY(YCoordinate);
+           end;
+         end;}
     Spielfigur := TSpielfigur1.Create(Form1,50,50);
     Bot := TBot1.Create(Form1,375,115) ;
+    
 
     Bot.setFightDistanceX(0);
     Bot.setFightDistanceY(21);
+    Bot.setState(false);
 end;
 
-
 procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
-  var AttackButton : Array[1..4] of TButton;
+var src,picsrc : String
 begin
-  if (key = 'a') and Karte.prooveCoords(Karte.getPosX + 5,Karte.getPosY) then
+
+//Edit1.Text:= IntToStr(Karte.getPosX);
+//Edit2.Text:= IntToStr(Karte.getPosY);
+
+    src:= 'notChoords_level' + IntToStr(Level) + 'txt';
+
+if (key = 'a') and Karte.prooveCoords(Karte.getPosX + 5,Karte.getPosY,src) then
    begin
+
        Karte.setPosX(5);
        Spielfigur.paintFigur(1);
        Bot.setPosX(5);
@@ -60,7 +81,7 @@ begin
        Bot.setDistanceY(Spielfigur.getTop());
     end;
 
-  if (key = 'd') and Karte.prooveCoords(Karte.getPosX - 5,Karte.getPosY) then
+   if (key = 'd') and Karte.prooveCoords(Karte.getPosX - 5,Karte.getPosY,src) then
    begin
        Karte.setPosX(-5);
        Spielfigur.paintFigur(2);
@@ -69,8 +90,9 @@ begin
        Bot.setDistanceY(Spielfigur.getTop());
     end;
 
-   if (key = 's') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY - 5) then
-    begin
+    if (key = 's') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY - 5,src) then
+   begin
+
        Karte.setPosY(-5);
        Spielfigur.paintFigur(4);
        Bot.setPosY(-5);
@@ -79,8 +101,9 @@ begin
     end;
 
 
-   if (key = 'w') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY + 5) then
-    begin
+    if (key = 'w') and Karte.prooveCoords(Karte.getPosX ,Karte.getPosY + 5,src) then
+   begin
+
        Karte.setPosY(5);
        Spielfigur.paintFigur(3);
        Bot.setPosY(5);
@@ -89,63 +112,32 @@ begin
     end;
 
 
-   if (Key = 'x') and (Karte.getPosX = -365) and (Karte.getPosY = -50) then ShowMessage('Sie befinden sich in der Schulstra√üe\n Gehen sie auf das blaue Feld um auf den Schulhof zu gelangen');
-   
-   if (Key = 'x') and (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
+    if (Key = 'x') and (Karte.getPosX = -365) and (Karte.getPosY = -50) then ShowMessage('Sie befinden sich in der Schulstraﬂe\n Gehen sie auf das blaue Feld um auf den Schulhof zu gelangen');
+
+
+    if (Key = 'x') and (abs(Bot.getDistanceY()) <= abs(Bot.getFightDistanceY())) and (abs(Bot.getDistanceX()) <= abs(Bot.getFightDistanceX())) then
     begin
-      ShowMessage(Bot.startConversation());
+       ShowMessage(Bot.startConversation());
+       Bot.setState(true);
+       Application.CreateForm(TForm2, Form2);
+       Form1.Visible:= false;
+       Form2.Visible:= true;
+    end;
 
-     Kampf := TFightInterface.Create(Form1,0,0);
-       Pokemon1 := TPokemon.create(Form1,1,3);
-       Pokemon2 := TPokemon.create(Form1,2,1);
+    if (key= 'n') and (Karte.getPosX <= -300) and (Karte.getPosY = -85) and (Karte.getPosX >= -325) and (Bot.getState()) then
+    begin
+         picsrc := 'Level' + IntToStr(Level)+ 'png';
+        Karte.paintbackground(picsrc);
+    end;
 
-       Pokemon1.drawPokemon(Form1,130,10);
-       Pokemon2.drawPokemon(Form1,20,100);
+    if (key= 'n') and (Karte.getPosX <= -300) and (Karte.getPosY = -85) and (Karte.getPosX >= -325) and (Bot.getState() <> true) then
+    begin
+       ShowMessage('K‰mpfe erstmal');
+    end;
 
-       Form1.ClientHeight:= 720;
-       Form1.ClientWidth:= 720;
-
-       begin
-
-
-  AttackButton[1]:=TButton.Create(Self);
-  AttackButton[1].Parent:=Self;
-  AttackButton[1].Caption:='Attacke 1';
-  AttackButton[1].Left:=40;
-  AttackButton[1].Top:=550;
-  AttackButton[1].Width:=250;
-  AttackButton[1].Height:=40;
-
-  AttackButton[2]:=TButton.Create(Self);
-  AttackButton[2].Parent:=Self;
-  AttackButton[2].Caption:='Attacke 2';
-  AttackButton[2].Left:=420;
-  AttackButton[2].Top:=550;
-  AttackButton[2].Width:=250;
-  AttackButton[2].Height:=40;
-
-  AttackButton[3]:=TButton.Create(Self);
-  AttackButton[3].Parent:=Self;
-  AttackButton[3].Caption:='Attacke 3';
-  AttackButton[3].Left:=40;
-  AttackButton[3].Top:=645;
-  AttackButton[3].Width:=250;
-  AttackButton[3].Height:=40;
-
-  AttackButton[4]:=TButton.Create(Self);
-  AttackButton[4].Parent:=Self;
-  AttackButton[4].Caption:='Attacke 4';
-  AttackButton[4].Left:=420;
-  AttackButton[4].Top:=645;
-  AttackButton[4].Width:=250;
-  AttackButton[4].Height:=40;
-end;
-
-      end;
-
+    if (key = 'y') then saveGameProgress(Karte.getPosX, Karte.getPosY, 1);
 
 end;
-
-
 
 end.
+ 
