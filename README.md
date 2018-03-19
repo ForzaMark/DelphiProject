@@ -1,11 +1,10 @@
 # DelphiProject
-Delphi Project 12/II 
 
 Pokemon-Spiel am Spalatin.
 
-# ACHTUNG !!
+Dies ist die Abschlussarbeit von drei Schülern des christlichen Spalatin-Gymnasium, geschrieben in Delphi/Objetive Pascal.
+Diese Projekt ist für jeden zur Weiterentwicklung freigegeben.
 
-In dem zip-ordner liegen alle Bilder die man (bislang) benötigt.
-Außerdem liegt ein TextFile mit drin was von der TKarte genutzt wird.
+Alle benötigten Bilder sowie Kartenbegrenzungen(notChoords_level...txt) liegen in den .zip Ordnern des master Branches.
 
-
+Die Unterthemen Steuerung/Pokemonklasse/Kampfsystem haben alle ihre eigenen Branches, in welchen die dazugehörigen Klassen, Dateien etc. liegen.
